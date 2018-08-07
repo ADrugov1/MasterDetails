@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div>
+    <div ng-view>
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Controllers/BookController.js"></script>
+    <script src="~/Scripts/Services/BookService.js"></script>
+}
