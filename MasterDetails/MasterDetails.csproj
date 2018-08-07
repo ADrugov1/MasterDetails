@@ -996,6 +996,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Home\_ShowBooks.cshtml" />
+    <Content Include="Views\Home\_AddBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Common\" />

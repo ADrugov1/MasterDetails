@@ -31,5 +31,10 @@ namespace MasterDetails.Controllers
         {
             return PartialView("_ShowBooks");
         }
+
+        public ActionResult AddBook()
+        {
+            return PartialView("_AddBook");
+        }
     }
 }
