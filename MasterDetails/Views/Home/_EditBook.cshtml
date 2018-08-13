@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Edit Book";
+}
+<h2>Edit Book</h2>
+<div ng-controller="BookController" ng-init="getBook()">
+    <div class="col-md-12" >
+        <div class="col-md-3">Title</div>
+        <div class="col-md-9"><input type="text" ng-model="Book.Title" ng-disabled="false" ng-readonly="false" /></div>
+
+        <div class="col-md-3">Pages</div>
+        <div class="col-md-9"><input type="text" ng-model="Book.Pages" /></div>
+
+        <div class="col-md-3">Publishing House</div>
+        <div class="col-md-9"><input type="text" ng-model="Book.PublishingHouse" /></div>
+
+        <div class="col-md-3">Publication Year</div>
+        <div class="col-md-9"><input type="text" ng-model="Book.PublicationYear" /></div>
+
+        <div class="col-md-3">Image</div>
+        <div class="col-md-9"><input type="text" ng-model="Book.Image" /></div>
+    </div>
+    <div style="margin-top:20px"></div>
+    <div>
+        <h3>Authors</h3>
+        <div class="row" style="background-color: #f0f0f0;">
+            <div class="col-md-4">First Name</div>
+            <div class="col-md-4">Last Name</div>
+        </div>
+        <div ng-repeat="author in Book.Authors" class="row">
+            <div class="col-md-4">{{author.FirstName}}</div>
+            <div class="col-md-4">{{author.LastName}}</div>
+            <div class="col-md-4"><a ng-click="deleteAuthor($index)">Delete</a></div>
+        </div>
+        <div style="margin-top:20px"></div>
+        <div class="row" style="background-color: #f0f0f0;">
+            <div class="col-md-4">First Name:<input type="text" ng-model="FirstName" required /></div>
+            <div class="col-md-4">Last Name:<input type="text" ng-model="LastName" required /></div>
+            <div class="col-md-4"><button ng-click="addAuthor()">Add author</button></div>
+        </div>
+    </div>
+    <div style="margin-top:20px"></div>
+    <input type="button" value="Update book" ng-click="editBook()" />
+</div>
+<div style="margin-top:20px"></div>
+<div class="alert alert-danger" ng-if="error != null">
+    <strong>Danger!</strong> {{error}}
+</div>

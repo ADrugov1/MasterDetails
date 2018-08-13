@@ -63,13 +63,8 @@ namespace MasterDetails.Controllers
                     oldBook.Pages = book.Pages;
                     oldBook.Image = book.Image;
 
-                    foreach (var author in book.Authors)
-                    {
-                        if (author.Id == 0)
-                        {
-                            oldBook.Authors.Add(author);
-                        }
-                    }
+                    oldBook.Authors = book.Authors;
+
 
                     db.SaveChanges();
                     return StatusCode(HttpStatusCode.NoContent);

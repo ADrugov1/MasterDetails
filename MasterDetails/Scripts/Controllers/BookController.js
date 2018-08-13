@@ -15,6 +15,11 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'BookController'
     });
 
+    $routeProvider.when('/edit', {
+        templateUrl: '/Home/EditBook',
+        controller: 'BookController'
+    });
+
     $routeProvider.otherwise({ redirectTo: '/' });
 
     $locationProvider.html5Mode({
@@ -27,6 +32,10 @@ app.controller('BookController', function ($scope, $location, BookService, Share
     $scope.add = function () {
         $location.path("/add");
     };
+    $scope.edit = function (id) {
+        ShareData.value = id;
+        $location.path('/edit');
+    }
 
     $scope.error = null;
     $scope.Book = {
@@ -78,6 +87,42 @@ app.controller('BookController', function ($scope, $location, BookService, Share
     // Delete Comment.
     $scope.deleteAuthor = function (index) {
         $scope.Book.Authors.splice(index, 1);
+    };
+
+    // Get Book by Id.
+    $scope.getBook = function () {
+        BookService.getBook(ShareData.value)
+            .then(function (book) {
+                $scope.Book = book.data
+                console.log($scope.Book);
+            },
+                function (error) {
+                    $scope.error = 'Unable to load book data: ' + error.message;
+                    console.log($scope.error);
+                });
+    };
+
+    // Edit Book Function.
+    $scope.editBook = function () {
+        var Book = {
+            Id: $scope.Book.Id,
+            Title: $scope.Book.Title,
+            Pages: $scope.Book.Pages,
+            PublishingHouse: $scope.Book.PublishingHouse,
+            PublicationYear: $scope.Book.PublicationYear,
+            Image: $scope.Book.Image,
+        };
+
+        BookService.updateBook($scope.Book.Id, $scope.Book)
+            .then(function (book) {
+                $scope.Book = book;
+                console.log($scope.Book);
+                $location.url('/');
+            },
+                function (error) {
+                    $scope.error = 'Unable to load book data: ' + error.message;
+                    console.log($scope.error);
+                });
     };
 
 });
