@@ -1,36 +1,32 @@
 namespace MasterDetails.Models
 {
-    using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
-    [Table("Book")]
-    public partial class Book
+    public class Book
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Book()
-        {
-            Authors = new HashSet<Author>();
-        }
+        public virtual int Id { get; set; }
+        
+        public virtual string Title { get; set; }
 
-        public int Id { get; set; }
+        public virtual int Pages { get; set; }
 
-        [Required]
-        [StringLength(30)]
-        public string Title { get; set; }
+        public virtual string PublishingHouse { get; set; }
 
-        public int Pages { get; set; }
+        public virtual int? PublicationYear { get; set; }
 
-        [StringLength(30)]
-        public string PublishingHouse { get; set; }
+        public virtual byte[] Image { get; set; }
 
-        public int? PublicationYear { get; set; }
-
-        public byte[] Image { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Author> Authors { get; set; }
+
+        public virtual void Add(Author author)
+        {
+            if (Authors == null)
+            {
+                Authors = new List<Author>();
+            }
+
+            author.Book = this;
+            Authors.Add(author);
+        }
     }
 }

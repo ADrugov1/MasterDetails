@@ -8,6 +8,7 @@ using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MasterDetails.Models;
+using NHibernate;
 
 namespace MasterDetails.Controllers
 {
@@ -21,8 +22,11 @@ namespace MasterDetails.Controllers
         {
             try
             {
-                var books = db.Books.ToList();
-                return books;
+                using (ISession session = HibernateHelper.OpenSession())
+                {
+                    var queryResult = session.QueryOver<Book>().List();
+                    return queryResult;
+                }
             }
             catch (Exception ex)
             {
@@ -34,13 +38,16 @@ namespace MasterDetails.Controllers
         [ResponseType(typeof(Book))]
         public IHttpActionResult GetBook(int id)
         {
-            Book book = db.Books.Find(id);
-            if (book == null)
+            using (ISession session = HibernateHelper.OpenSession())
             {
-                return NotFound();
-            }
-
-            return Ok(book);
+                var book = session.Query<Book>().FirstOrDefault(x => x.Id == id);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                var authors = book.Authors;
+                return Ok(book);
+            }          
         }
 
         // PUT: api/Books/5
@@ -51,22 +58,14 @@ namespace MasterDetails.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (id != book.Id)
+                    using (ISession session = HibernateHelper.OpenSession())
                     {
-                        return BadRequest();
+                        using (ITransaction transaction = session.BeginTransaction())
+                        {
+                            session.Update(book);
+                            transaction.Commit();
+                        }
                     }
-
-                    var oldBook = db.Books.FirstOrDefault(s => s.Id == id);
-                    oldBook.Title = book.Title;
-                    oldBook.PublishingHouse = book.PublishingHouse;
-                    oldBook.PublicationYear = book.PublicationYear;
-                    oldBook.Pages = book.Pages;
-                    oldBook.Image = book.Image;
-
-                    oldBook.Authors = book.Authors;
-
-
-                    db.SaveChanges();
                     return StatusCode(HttpStatusCode.NoContent);
                 }
                 return BadRequest(ModelState);
@@ -88,15 +87,17 @@ namespace MasterDetails.Controllers
 
             try
             {
-                using (var _db = new Models.Database())
+                using (ISession session = HibernateHelper.OpenSession())
                 {
-                    _db.Books.Add(book);
-                    foreach (var author in book.Authors)
+                    using (ITransaction transaction = session.BeginTransaction())
                     {
-                        author.BookId = book.Id;
-                        _db.Authors.Add(author);
+                        foreach (var author in book.Authors)
+                        {
+                            author.Book = book;
+                        }
+                        session.Save(book);
+                        transaction.Commit();
                     }
-                    _db.SaveChanges();
                 }
             }
             catch (Exception)
@@ -111,16 +112,23 @@ namespace MasterDetails.Controllers
         [ResponseType(typeof(Book))]
         public IHttpActionResult DeleteBook(int id)
         {
-            Book book = db.Books.Find(id);
-            if (book == null)
+            using (ISession session = HibernateHelper.OpenSession())
             {
-                return NotFound();
+                var book = session.QueryOver<Book>().Where(x => x.Id == id).SingleOrDefault();
+
+                if (book == null)
+                {
+                    return NotFound();
+                }
+
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.Delete(book);
+                    transaction.Commit();
+                }
+
+                return Ok(book);
             }
-
-            db.Books.Remove(book);
-            db.SaveChanges();
-
-            return Ok(book);
         }
 
         protected override void Dispose(bool disposing)

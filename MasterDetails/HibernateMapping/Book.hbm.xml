@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="MasterDetails"
+                   namespace="MasterDetails.Models">
+  <class name="Book">
+    <id name="Id">
+      <generator class="native"/>
+    </id>
+    <property name="Title"/>
+    <property name="Pages"/>
+    <property name="PublishingHouse"/>
+    <property name="PublicationYear"/>
+    <property name="Image"/>
+    <bag name="Authors"
+         lazy="false"
+         inverse="true"
+         cascade="all-delete-orphan">
+      <key column="BookId"/>
+      <one-to-many class="Author"></one-to-many>
+    </bag>
+  </class>
+</hibernate-mapping>
