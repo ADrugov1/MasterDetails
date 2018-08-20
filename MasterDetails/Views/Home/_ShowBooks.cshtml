@@ -4,21 +4,24 @@
 <div ng-controller="BookController" class="col-md-12">
     <div>
         <div class="row" style="background-color: #f0f0f0;">
-            <div class="col-md-2">ID</div>
+            <div class="col-md-1">ID</div>
             <div class="col-md-2">Title</div>
-            <div class="col-md-2">Pages</div>
+            <div class="col-md-1">Pages</div>
             <div class="col-md-2">Publishing House</div>
-            <div class="col-md-2">Publication Year</div>
+            <div class="col-md-1">Publication Year</div>
             <div class="col-md-2">Image</div>
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-2">&nbsp;</div>
         </div>
         <div ng-repeat="book in Books" class="row">
-            <div class="col-md-2">{{book.Id}}</div>
+            <div class="col-md-1">{{book.Id}}</div>
             <div class="col-md-2">{{book.Title}}</div>
-            <div class="col-md-2">{{book.Pages}}</div>
+            <div class="col-md-1">{{book.Pages}}</div>
             <div class="col-md-2">{{book.PublishingHouse}}</div>
-            <div class="col-md-2">{{book.PublicationYear}}</div>
+            <div class="col-md-1">{{book.PublicationYear}}</div>
             <div class="col-md-2">{{book.Image}}</div>
-            <div class="col-md-2"><a ng-click="edit(book.Id)">Edit</a></div>
+            <div class="col-md-1"><a ng-click="edit(book.Id)">Edit</a></div>
+            <div class="col-md-1"><a ng-click="delete(book.Id)">Delete</a></div>
         </div>
     </div>
 </div>

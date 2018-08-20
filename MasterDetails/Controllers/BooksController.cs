@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -13,10 +10,7 @@ using NHibernate;
 namespace MasterDetails.Controllers
 {
     public class BooksController : ApiController
-    {
-        private Models.Database db = new Models.Database();
-        
-
+    {    
         // GET: api/Books
         public IList<Book> GetBooks()
         {
@@ -45,7 +39,6 @@ namespace MasterDetails.Controllers
                 {
                     return NotFound();
                 }
-                var authors = book.Authors;
                 return Ok(book);
             }          
         }
@@ -129,20 +122,6 @@ namespace MasterDetails.Controllers
 
                 return Ok(book);
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool BookExists(int id)
-        {
-            return db.Books.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -28,7 +28,7 @@
         </div>
         <div ng-repeat="author in Book.Authors" class="row">
             <div class="col-md-4">{{author.FirstName}}</div>
-            <div class="col-md-4">{{author.SecondName}}</div>
+            <div class="col-md-4">{{author.LastName}}</div>
             <div class="col-md-4"><a ng-click="deleteAuthor($index)">Delete</a></div>
         </div>
         <div style="margin-top:20px"></div>

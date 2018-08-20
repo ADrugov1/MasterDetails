@@ -1,0 +1,26 @@
+﻿{
+ViewBag.Title = "Delete Book";
+}
+
+<h2>Delete Movie</h2>
+<div class="col-md-12" ng-controller="bookController" ng-init="getBook()">
+    <div class="col-md-4">Id</div>
+    <div class="col-md-4">Title</div>
+    <div class="col-md-4">Pages</div>
+    <div class="col-md-4">Publishing House</div>
+    <div class="col-md-4">Publication Year</div>
+    <div class="col-md-4">Image</div>
+
+    <div class="col-md-4">{{Book.Id}}</div>
+    <div class="col-md-4">{{Book.Title}}</div>
+    <div class="col-md-4">{{Book.Pages}}</div>
+    <div class="col-md-4">{{Book.PublishingHouse}}</div>
+    <div class="col-md-4">{{Book.PublicationYear}}</div>
+    <div class="col-md-4">{{Book.Image}}</div>
+
+    <div style="margin-top:20px"></div>
+    <input type="button" value="Delete Book" ng-click="deleteBook()" />
+</div>
+<div class="alert alert-danger" ng-if="error != null">
+    <strong>Danger!</strong> {{error}}
+</div>

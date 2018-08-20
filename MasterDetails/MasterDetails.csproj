@@ -191,7 +191,6 @@
     <Compile Include="HibernateHelper.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\Database.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1015,6 +1014,7 @@
     <Content Include="Views\Home\_ShowBooks.cshtml" />
     <Content Include="Views\Home\_AddBook.cshtml" />
     <Content Include="Views\Home\_EditBook.cshtml" />
+    <Content Include="Views\Home\_DeleteBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Common\" />

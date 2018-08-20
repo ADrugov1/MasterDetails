@@ -41,5 +41,10 @@ namespace MasterDetails.Controllers
         {
             return PartialView("_EditBook");
         }
+
+        public ActionResult DeleteBook()
+        {
+            return PartialView("_DeleteBook");
+        }
     }
 }

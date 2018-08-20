@@ -20,6 +20,11 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'BookController'
     });
 
+    $routeProvider.when('/delete', {
+        templateUrl: '/Home/DeleteBook',
+        controller: 'BookController'
+    });
+
     $routeProvider.otherwise({ redirectTo: '/' });
 
     $locationProvider.html5Mode({
@@ -93,8 +98,8 @@ app.controller('BookController', function ($scope, $location, BookService, Share
     $scope.getBook = function () {
         BookService.getBook(ShareData.value)
             .then(function (book) {
-                $scope.Book = book.data
-                console.log($scope.Book);
+                    $scope.Book = book.data;
+                    console.log($scope.Book);
             },
                 function (error) {
                     $scope.error = 'Unable to load book data: ' + error.message;
@@ -110,7 +115,7 @@ app.controller('BookController', function ($scope, $location, BookService, Share
             Pages: $scope.Book.Pages,
             PublishingHouse: $scope.Book.PublishingHouse,
             PublicationYear: $scope.Book.PublicationYear,
-            Image: $scope.Book.Image,
+            Image: $scope.Book.Image
         };
 
         BookService.updateBook($scope.Book.Id, $scope.Book)
@@ -121,6 +126,26 @@ app.controller('BookController', function ($scope, $location, BookService, Share
             },
                 function (error) {
                     $scope.error = 'Unable to load book data: ' + error.message;
+                    console.log($scope.error);
+                });
+    };
+
+    // Set the route to navigate.
+    $scope.delete = function (id) {
+        ShareData.value = id;
+        $location.path('/delete');
+    }
+
+    // Delete Book Function
+    $scope.deleteBook = function () {
+        BookService.deleteBook($scope.Book.Id)
+            .then(function (book) {
+                $scope.Book = book.data;
+                console.log($scope.Book);
+                    $location.url('/');
+                },
+                function (error) {
+                    $scope.error = 'Unable to delete book data: ' + error.message;
                     console.log($scope.error);
                 });
     };
